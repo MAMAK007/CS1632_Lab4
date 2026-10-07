@@ -3,39 +3,48 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-	public static void RecursiveMethod(ArrayList<String> lines) {
-		int linenum = 0;
-		int paragraph_length = 0;
+	
+	private static ArrayList<Paragraph> RecursiveMethod(ArrayList<String> lines) {
+		ArrayList<Paragraph> container = new ArrayList<Paragraph>();
 		
-		for (String line: lines) {
-			if (line.isEmpty()) {
-				System.out.println(linenum + ": " + "Paragraph Length: " + (paragraph_length));				
-				paragraph_length = 0;
-			} else if ((linenum + 1) >= lines.size()) { 
-				System.out.println(linenum + ": " + line + "\nParagraph Length: " + (paragraph_length + 1));
+		Paragraph newParagraph = new Paragraph();
+		
+		for (int i = 0; i < lines.size(); i++) {
+			String line = lines.get(i);
+
+			if (line.isBlank()) {
+				container.add(newParagraph);
+				newParagraph = new Paragraph();
 			} else {
-				System.out.println(linenum + ": " + line);
-				paragraph_length++;
+				newParagraph.add(line + "\n");
 			}
-			linenum++;
 		}
+		
+		if (!newParagraph.isEmpty()) {
+			container.add(newParagraph);
+		}
+		
+		return container;
 	}
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		ArrayList<Paragraph> myContainer = new ArrayList<Paragraph>();
 		
 		while (true) {
 			try {
 				System.out.print("What file do you want to read? (from src/data directory)\n> ");
-				// String myFile = sc.nextLine();
-				System.out.print("GettysburgAddress.txt");
-				String myFile = "GettysburgAddress.txt";
+				
+				//String myFile = sc.nextLine();
+				System.out.print("LoremIpsum.txt");
+				String myFile = "LoremIpsum.txt";
+				
+				System.out.println();
 				ReadFile fileRes = new ReadFile("data/" + myFile);
 				System.out.println();
 				
 				ArrayList<String> lines = fileRes.getLines();
-				RecursiveMethod(lines);
-				
+				myContainer = RecursiveMethod(lines);
 				break;
 			}
 			catch (Exception e) {
@@ -44,5 +53,7 @@ public class Main {
 				System.out.println();
 			}
 		}
+		
+		System.out.println(myContainer);
 	}
 }
