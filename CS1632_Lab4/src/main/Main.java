@@ -35,9 +35,7 @@ public class Main {
 			try {
 				System.out.print("What file do you want to read? (from src/data directory)\n> ");
 				
-				//String myFile = sc.nextLine();
-				System.out.print("LoremIpsum.txt");
-				String myFile = "LoremIpsum.txt";
+				String myFile = sc.nextLine();
 				
 				System.out.println();
 				ReadFile fileRes = new ReadFile("data/" + myFile);
